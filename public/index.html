@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Airline Management System</title>
+</head>
+<body>
+	<!-- Navbar -->
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<ul class="nav navbar-nav">
+				<figure>
+					<img id="plane_logo" src="plane.png">
+					<figcaption><h1>Book-A-Flight.com</h1></figcaption>
+				</figure>
+			</ul>
+			<form class="navbar-form navbar-right" id="signin" method="POST" action="/signin">
+				<div class="form-group">
+					<a href="signup.html">Register Now</a>
+				</div>
+				<div class="form-group">
+					<input type="email" class="form-control" placeholder="emailid" name="emailid">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="password" name="password">
+				</div>
+				<button type="submit" class="btn btn-success">Sign In</button>
+				<button type="button" class="btn btn-success"><a href="adminLogin.html">Admin Login</a></button>
+			</form>
+		</div>
+	</nav>
+
+	<footer>
+		<p>Careers | About | Mission | Services | Email</p>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,166 @@
+/*@import url(https://fonts.googleapis.com/css?family=Oswald:400,700);*/
+html {
+  font-size: 100%;
+}
+body {
+  background-color: #eef1f5;
+  font-family: "Oswald", sans-serif;
+  font-weight: 400;
+}
+h1, h2, h3, h4, h5, h6 {
+  display: block;
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.8;
+  margin: 0;
+}
+h1 {
+  font-size: 2.4em;
+}
+h2 {
+  font-size: 1.4em;
+}
+h3 {
+  font-size: 1em;
+}
+h4 {
+  font-size: 0.85em;
+  line-height: 1;
+}
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+span {
+  text-transform: uppercase;
+}
+.boarding-pass {
+  /*box-shadow: 0 -140px 86px #c7d1de;*/
+  background: #fff;
+  border-radius: 0.3em;
+  width: 400px;
+  max-width: 100%;
+  margin: 20px auto 20px;
+}
+.boarding-pass-header {
+  padding: 20px;
+}
+.boarding-pass-header .logo {
+  display: inline-block;
+  float: left;
+  width: 100px;
+}
+.boarding-pass-header .logo img {
+  width: 100%;
+}
+.boarding-pass-header .title {
+  color: #153f4f;
+  float: right;
+  margin-top: 1px;
+}
+.boarding-pass-flight {
+  background: #e24a4a;
+  color: #fff;
+  padding: 40px;
+}
+.boarding-pass-flight li {
+  float: left;
+  width: 33.3%;
+  text-align: center;
+}
+.boarding-pass-flight li .fa {
+  font-size: 2.5em;
+  margin-top: 8px;
+}
+.boarding-pass-flight li span {
+  font-size: 0.85em;
+}
+.boarding-pass-details {
+  background: #b4bcc6;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 20px 40px;
+}
+.boarding-pass-details li {
+  float: left;
+  width: 33.3%;
+  text-align: center;
+}
+.boarding-pass-details li span {
+  font-size: 0.85em;
+}
+.boarding-pass-body {
+  padding: 40px;
+}
+.boarding-pass-body h4 {
+  color: #a3afc1;
+}
+.boarding-pass-body .passenger {
+  margin-bottom: 20px;
+}
+.boarding-pass-body .passenger span {
+  color: #e24a4a;
+  font-size: 1.2em;
+}
+.boarding-pass-body li {
+  float: left;
+  width: 33.3%;
+}
+.boarding-pass-body li span {
+  color: #1a4253;
+}
+.boarding-pass-footer {
+  padding: 20px 40px;
+  border-top: 1px dashed #a3afc1;
+  position: relative;
+}
+.boarding-pass-footer:before, .boarding-pass-footer:after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: #eef1f5;
+  border-radius: 50%;
+  position: absolute;
+  top: -10px;
+}
+.boarding-pass-footer:before {
+  left: -10px;
+}
+.boarding-pass-footer:after {
+  right: -10px;
+}
+.boarding-pass-footer ul {
+  display: inline-block;
+  float: left;
+}
+.boarding-pass-footer ul li {
+  float: left;
+  padding: 0 10px;
+}
+.boarding-pass-footer ul li h2 {
+  color: #1a4253;
+}
+.boarding-pass-footer ul li span {
+  color: #1a4253;
+  font-size: 0.5em;
+}
+.boarding-pass-footer ul li .fa {
+  color: #e24b4b;
+  font-size: 1.5em;
+  margin-top: 4px;
+}
+.boarding-pass-footer .verifying-code {
+  float: right;
+  width: 60px;
+}
+.boarding-pass-footer .verifying-code img {
+  width: 100%;
+}

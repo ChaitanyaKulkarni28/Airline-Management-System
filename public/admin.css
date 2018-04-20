@@ -1,0 +1,14 @@
+body{
+	background-image: url('background/5.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+nav{
+	opacity: 0.9;
+	color: white;
+}
+
+.container{
+	opacity: 0.9;
+}

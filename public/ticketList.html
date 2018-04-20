@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="homepagestyle.css">
+	<link rel="stylesheet" type="text/css" href="ticket.css">
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="homepage.html">Book-A-Flight.com</a>
+			</div>
+			<ul class="nav navbar-nav">	
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage My Bookings
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<div class="row">
+							<div class="col col-sm-6">
+								Online Check-in
+								<form id="checkin-form" action="/onlinecheckin" method="post">
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="Ticket Id" name="ticketid">
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="lastname" name="lastname">
+									</div>
+									<button type="submit" class="btn btn-success">Start Check-in</button>
+								</form>
+							</div>
+							<div class="col col-sm-6">
+								Find My Booking
+								<form id="find-booking-form" action="/findmybooking" method="post">
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="Ticket Id" name="ticketid">
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="lastname" name="lastname">
+									</div>
+									<button type="submit" class="btn btn-success">Find booking</button>
+								</form>
+							</div>
+						</div>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Information
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="#" id='flightStatus'>Flight Status</a></li>
+						<li><a href="foodanddrink.html">Food and Drink</a></li>
+						<li><a href="#">Airport Information</a></li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="index.html"><span class="glyphicon glyphicon-log-out"></span>Logout</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+
+	<div id="ticketModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Your Itinerary</h4>
+				</div>
+				<div class="modal-body">
+					<div class="boarding-pass">
+						<div class="boarding-pass-flight">
+							<ul class="clearfix">
+								<li>
+									<h1 id="modalFromLocation">BOM</h1>
+								</li>
+								<li>
+									<span class="fa fa-plane"></span>
+								</li>
+								<li>
+									<h1 id="modalToLocation">DFW</h1>
+								</li>
+							</ul>
+						</div>
+						<div class="boarding-pass-details">
+							<ul class="clearfix">
+								<li>
+									<h4>Date</h4>
+									<span id="modalDepartureDate">18 Jan'18</span>
+								</li>
+								<li>
+									<h4>Departure</h4>
+									<span id="modalDepartureTime">9:50 am</span>
+								</li>
+								<li>
+									<h4>Arrival</h4>
+									<span id="modalArrivalTime">9:50 pm</span>
+								</li>
+							</ul>
+						</div>
+						<div class="boarding-pass-body">
+							<div class="passenger">
+								<h4>passenger</h4>
+								<div>
+									<span id="modalPassengerList">
+									</span>
+								</div>
+							</div>
+							<ul class="clearfix">
+								<li>
+									<h4>flight</h4>
+									<span id="modalFlightId">lt 4060</span>
+								</li>
+								<li>
+									<h4>gate</h4>
+									<span>A5</span>
+								</li>
+							</ul>
+						</div>
+						<div class="boarding-pass-footer">
+							<div class="clearfix">
+								<div class="verifying-code">
+									<img src="http://www.wpclipart.com/signs_symbol/BW/barcode.png" alt="Bar Code" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<br>
+	<div class="container">
+		<div class="jumbotron">
+			<div id="result">
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			sessionStorage.setItem("profile_id", "45"); //change here
+			var profile_id = sessionStorage.getItem("profile_id");
+			var obj = [];
+			obj.push({"profile_id": profile_id});
+			$.ajax({
+				type: "POST",
+				url: "/ticketList",
+				data: JSON.stringify(obj),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(tickets){
+					var ticketList = "<table class='table table-hover'>"+
+					"<thead>"+
+					"<tr>"+
+					"<td>Flight Id</td>"+
+					"<td>Ticket Id</td>"+
+					"<td>From Location</td>"+
+					"<td>To Location</td>"+
+					"<td>From Date</td>"+
+					"<td>From Time</td>"+
+					"<td>To Date</td>"+
+					"<td>To Time</td>"+
+					"<td>Actions</td>"+
+					"</tr>"+
+					"</thead><tbody>";
+					for (i = 0; i < tickets.length; i++) {
+						ticketList+="<tr>"+
+						"<td>"+tickets[i].flight_id+"</td>"+
+						"<td>"+tickets[i].ticket_id+"</td>"+
+						"<td>"+tickets[i].from_location+"</td>"+
+						"<td>"+tickets[i].to_location+"</td>"+
+						"<td>"+tickets[i].flight_departure_date.substring(0,10)+"</td>"+
+						"<td>"+tickets[i].departure_time+"</td>"+
+						"<td>"+tickets[i].flight_arrival_date.substring(0,10)+"</td>"+
+						"<td>"+tickets[i].arrival_time+"</td>"+
+						"<td>"+
+						"<button class='btn btn-success' type='button' id='"+"Ticket"+tickets[i].ticket_id+"' class='TicketId' "+
+						"onclick='generateTicket("+tickets[i].ticket_id+")'>Generate</button>"+
+						" <button class='btn btn-success' type='button' id='"+"Modal"+tickets[i].ticket_id+"' class='bookSeatModal' data-toggle='modal' data-target='#ticketModal'>Ticket</button>"+
+						"</td>"+
+						"</tr>"
+					}
+					ticketList+="</tbody></table>";
+					$('#result').html(ticketList);
+				},
+				failure: function(errMsg) {
+					console.log(data);
+				}
+			});
+		});
+
+		function generateTicket(ticket_id){
+			var obj = [];
+			obj.push({"ticket_id": ticket_id});
+			$.ajax({
+				type: "POST",
+				url: "/ticket",
+				data: JSON.stringify(obj),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(ticket){
+					console.log(ticket);
+					document.getElementById("modalFromLocation").innerHTML = ticket[0].from_location;
+					document.getElementById("modalToLocation").innerHTML = ticket[0].to_location;
+					document.getElementById("modalDepartureDate").innerHTML = ticket[0].flight_departure_date.substring(0,10);
+					document.getElementById("modalDepartureTime").innerHTML = ticket[0].departure_time;
+					document.getElementById("modalArrivalTime").innerHTML = ticket[0].arrival_time;
+					document.getElementById("modalFlightId").innerHTML = ticket[0].flight_id;
+				},
+				failure: function(errMsg) {
+					console.log(errMsg);
+				}
+			});
+
+			$.ajax({
+				type: "POST",
+				url: "/passenger",
+				data: JSON.stringify(obj),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(passengers){
+					console.log(passengers[0].passengers);
+					var passengernames = passengers[0].passengers.split(',');
+					var formattedPassengerNames = "";
+					for (var i = 0 ;i< passengernames.length;i++) {
+						formattedPassengerNames+= passengernames[i]+"<br>";
+					}
+					document.getElementById("modalPassengerList").innerHTML = formattedPassengerNames;
+				},
+				failure: function(errMsg) {
+					console.log(errMsg);
+				} 
+			});
+		}
+
+	</script>
+</body>
+</html>

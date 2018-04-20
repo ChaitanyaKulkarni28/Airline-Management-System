@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<title>Admin</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="admin.css">
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">WebSiteName</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Home</a></li>
+				<li><a onclick="listFlights()" href="#">List</a></li>
+				<li><a href="#">Update</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="index.html"><span class="glyphicon glyphicon-log-out"></span>Logout</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="jumbotron">
+			<form class="form" id="flightForm">
+				<h2 align="center">Add</h2>
+				<div class="form-group">
+					<label for="text">Airline Name</label>
+					<input type="text" class="form-control" id="airlinename">
+				</div>
+				<div class="form-group">
+					<label for="text">From Location</label>
+					<input type="text" class="form-control" id="fromlocation">
+				</div>
+				<div class="form-group">
+					<label for="text">To Location</label>
+					<input type="text" class="form-control" id="tolocation">
+				</div>
+				<div class="form-group">
+					<label for="text">Seats</label>
+					<input type="text" class="form-control" id="totalseats">
+				</div>
+				<div class="form-group">
+					<label for="text">Departure Date</label>
+					<input type="date" class="form-control" id="departuredate">
+				</div>
+				<div class="form-group">
+					<label for="text">Departure Time</label>
+					<input type="text" class="form-control" id="departuretime">
+				</div>
+				<div class="form-group">
+					<label for="text">Arrival Date</label>
+					<input type="date" class="form-control" id="arrivaldate">
+				</div>
+				<div class="form-group">
+					<label for="text">Arrival Time</label>
+					<input type="text" class="form-control" id="arrivaltime">
+				</div>
+				<div class="form-group">
+					<label for="text">Price</label>
+					<input type="text" class="form-control" id="price">
+				</div>
+				<button type="submit" class="btn btn-success">Submit</button>
+				<button type="clear" class="btn btn-danger">Clear</button>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			$('#flightForm').submit(function(event) {
+				event.preventDefault();
+				var formdata = {
+					"airlinename": $('#airlinename').val(),
+					"fromlocation": $('#fromlocation').val(),
+					"tolocation": $('#tolocation').val(),
+					"totalseats": $('#totalseats').val(),
+					"departuredate": $('#departuredate').val(),
+					"departuretime": $('#departuretime').val(),
+					"arrivaldate": $('#arrivaldate').val(),
+					"arrivaltime": $('#arrivaltime').val(),
+					"price": $('#price').val(),
+				};
+				console.log(formdata);
+				$.ajax({
+					type: "POST",
+					url: "/flights", 
+					data: formdata,
+					success: function(data){
+						if(data !== "done")
+							alert("Registration error. Please retry!");
+					},
+					failure: function(errMsg) {
+						alert("Registration error. Please retry!");
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

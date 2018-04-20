@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="admin.css">
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">WebSiteName</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Home</a></li>
+				<li><a onclick="listFlights()" href="#">List</a></li>
+				<li><a onclick="updateFlight()" href="#">Update</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="index.html"><span class="glyphicon glyphicon-log-out"></span>Logout</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="jumbotron" id="result">
+			<div id="searchResult">
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="jumbotron">
+			<div id="updateForm">
+				<form class="form" id="updateForm">
+					<h2 align="center">Update</h2>
+					<div class="form-group">
+						<label for="text">Flight Id</label>
+						<input type="text" class="form-control" id="updateflightid">
+					</div>
+					<div class="form-group">
+						<label for="text">Seats</label>
+						<input type="text" class="form-control" id="updatetotalseats">
+					</div>
+					<button type="submit" class="btn btn-success">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="jumbotron">
+			<form class="form" id="flightForm">
+				<h2 align="center">Add</h2>
+				<div class="form-group">
+					<label for="text">Airline Name</label>
+					<input type="text" class="form-control" id="airlinename">
+				</div>
+				<div class="form-group">
+					<label for="text">From Location</label>
+					<input type="text" class="form-control" id="fromlocation">
+				</div>
+				<div class="form-group">
+					<label for="text">To Location</label>
+					<input type="text" class="form-control" id="tolocation">
+				</div>
+				<div class="form-group">
+					<label for="text">Seats</label>
+					<input type="text" class="form-control" id="totalseats">
+				</div>
+				<div class="form-group">
+					<label for="text">Departure Date</label>
+					<input type="date" class="form-control" id="departuredate">
+				</div>
+				<div class="form-group">
+					<label for="text">Departure Time</label>
+					<input type="text" class="form-control" id="departuretime">
+				</div>
+				<div class="form-group">
+					<label for="text">Arrival Date</label>
+					<input type="date" class="form-control" id="arrivaldate">
+				</div>
+				<div class="form-group">
+					<label for="text">Arrival Time</label>
+					<input type="text" class="form-control" id="arrivaltime">
+				</div>
+				<div class="form-group">
+					<label for="text">Price</label>
+					<input type="text" class="form-control" id="price">
+				</div>
+				<button type="submit" class="btn btn-success">Submit</button>
+				<button type="reset" class="btn btn-danger">Clear</button>
+			</form>
+		</div>
+	</div>
+
+	<script>
+		$(function() {
+			$('#flightForm').submit(function(event) {
+				event.preventDefault();
+				var formdata = {
+					"airlinename": $('#airlinename').val(),
+					"fromlocation": $('#fromlocation').val(),
+					"tolocation": $('#tolocation').val(),
+					"totalseats": $('#totalseats').val(),
+					"departuredate": $('#departuredate').val(),
+					"departuretime": $('#departuretime').val(),
+					"arrivaldate": $('#arrivaldate').val(),
+					"arrivaltime": $('#arrivaltime').val(),
+					"price": $('#price').val(),
+				};
+				console.log(formdata);
+				$.ajax({
+					type: "POST",
+					url: "/flights", 
+					data: formdata,
+					success: function(data){
+						if(data !== "done")
+							alert("Registration error. Please retry!");
+					},
+					failure: function(errMsg) {
+						alert("Registration error. Please retry!");
+					}
+				});
+				window.location.replace('admin.html');
+			});
+
+			$('#updateForm').submit(function(event){
+				event.preventDefault();
+				var formdata = {
+					"flight_id": $('#updateflightid').val(),
+					"seats": $('#updatetotalseats').val()
+				}
+				$.ajax({
+					type: "POST",
+					url: "/updateFlight", 
+					data: formdata,
+					success: function(data){
+						if(data == "Updated")
+							alert("Updated");
+					},
+					failure: function(errMsg) {
+						alert("Error");
+					}
+				});
+				window.location.replace('admin.html');
+			});
+		});
+
+		function listFlights(){
+			event.preventDefault();
+			$.ajax({
+				url: "/flight",
+				type: 'POST',
+				success: function(searchRes){
+					console.log(searchRes);
+					var resultSearch = "<table class='table table-hover'>"+
+					"<thead>"+
+					"<tr>"+
+					"<td>Flight Id</td>"+
+					"<td>Airline Name</td>"+
+					"<td>From Location</td>"+
+					"<td>To Location</td>"+
+					"<td>Total Seats</td>"+
+					"<td>Actions</td>"+
+					"</tr>"+
+					"</thead><tbody>";
+					for (i = 0; i < searchRes.length; i++) {
+						resultSearch+="<tr>"+
+						"<td>"+searchRes[i].flight_id+"</td>"+
+						"<td>"+searchRes[i].airline_name+"</td>"+
+						"<td>"+searchRes[i].from_location+"</td>"+
+						"<td>"+searchRes[i].to_location+"</td>"+
+						"<td>"+searchRes[i].total_seats+"</td>"+
+						"<td>"+
+						"<button class='btn btn-danger' type='button' id='"+"delete"+searchRes[i].flight_id+"' class='deleteFlight' "+
+						"onclick='deleteFlight("+searchRes[i].flight_id+")'>Delete</button> "+
+						"</td>"+
+						"</tr>"
+					}
+					resultSearch+="</tbody></table>";
+					$('#result').html(resultSearch);
+				},
+				error: function(xhr, status, error){
+					console.log("Error");
+				}
+			});
+		}
+		
+		function deleteFlight(flight_id){
+			var formdata = {
+				"flight_id": flight_id
+			};
+			$.ajax({
+				type: "POST",
+				url: "/deleteFlight", 
+				data: formdata,
+				success: function(data){
+					if(data !== "done")
+						alert("Cannot Delete");
+				},
+				failure: function(errMsg) {
+					alert("Cannot delete");
+				}
+			});
+		}
+
+	</script>
+</body>
+</html>

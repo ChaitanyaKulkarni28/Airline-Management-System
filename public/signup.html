@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sign Up</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="signup.js"></script>
+	<link rel="stylesheet" type="text/css" href="signup.css">
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<form class="navbar-form navbar-right" method="post" action="/signin" id="signin">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="username" name="emailid">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="password" name="password">
+				</div>
+				<button type="submit" class="btn btn-success">Sign In</button>
+			</form>
+		</div>
+	</nav>
+	<div class="container-fluid">
+		<div class="jumbotron">
+			
+			<form class="form" id="newEntryForm">
+				<div class="form-group">
+					<label for="firstname">Firstname
+						<input type="text" class="form-control" id="firstname" name="firstname">
+					</label>
+				</div>
+				<div class="form-group">
+					<label for="lastname">Lastname
+						<input type="text" class="form-control" id="lastname" name="lastname">
+					</label>
+				</div>
+				<div class="form-group">
+					<span id="result"></span>
+					<label for="password">Password
+						<input type="password" class="form-control" id="password" name="password">
+					</label>
+				</div>
+				<div class="form-group">
+					<label for="emailid">EmailId
+						<input type="email" class="form-control" id="emailid" name="emailid">
+					</label>
+				</div>
+				<div class="form-group">
+					<label for="mobile">Mobile
+						<input type="number" class="form-control" id="mobile" name="mobile">
+					</label>
+				</div>
+				<button type="submit" class="btn btn-success">Sign Up</button>
+				<button type="reset" class="btn btn-danger">Reset</button>
+			</form>
+			
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			$('#newEntryForm').submit(function(event) {
+				event.preventDefault();
+				var formdata = {
+					"firstname": $('#firstname').val(),
+					"lastname": $('#lastname').val(),
+					"password": $('#password').val(),
+					"emailid": $('#emailid').val(),
+					"mobile": $('#mobile').val(),
+				};
+				$.ajax({
+					type: "POST",
+					url: "/signup", 
+					data: formdata,
+					success: function(data){
+						if(data === "done")
+							window.location.replace('http://localhost:3003/public/index.html');
+						else
+							alert("Registration error. Please retry!");
+					},
+					failure: function(errMsg) {
+						alert("Registration error. Please retry!");
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

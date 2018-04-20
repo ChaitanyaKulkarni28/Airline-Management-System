@@ -1,0 +1,26 @@
+.jumbotron{
+	width: 50%;
+	text-align: center;
+	margin: 0 auto;
+}
+
+#newEntryForm .short{
+	font-weight:bold;
+	color:#FF0000;
+	font-size:larger;
+}
+#newEntryForm .weak{
+	font-weight:bold;
+	color:orange;
+	font-size:larger;
+}
+#newEntryForm .good{
+	font-weight:bold;
+	color:#2D98F3;
+	font-size:larger;
+}
+#newEntryForm .strong{
+	font-weight:bold;
+	color: limegreen;
+	font-size:larger;
+}
